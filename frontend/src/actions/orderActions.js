@@ -49,7 +49,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.post(
-            `/api/orders/add/`,
+            `/api/marathons/buy/marathon`,
             order,
             config
         )
@@ -217,7 +217,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
         }
 
         const { data } = await axios.get(
-            `/api/orders/myorders/`,
+            `/api/marathons/marathons/mymarathons`,
             config
         )
 

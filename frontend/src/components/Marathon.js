@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 function Marathon({ marathon }) {
     return (
-        <Card className="my-3 p-3 rounded">
+        <Card className="my-3 p-3 rounded" style={{height: 350}}>
             <Link to={`/marathon/${marathon._id}`}>
                 
                 <div className="image" style={{ width: "100%", height: 150, backgroundImage: `url(${marathon.image})`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
@@ -13,7 +13,7 @@ function Marathon({ marathon }) {
                 </div>
             </Link>
 
-            <Card.Body>
+            <Card.Body >
                 <Link to={`/marathon/${marathon._id}`}>
                     <Card.Title as="div">
                         <strong>{marathon.title}</strong>

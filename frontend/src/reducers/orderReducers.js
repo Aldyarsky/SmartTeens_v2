@@ -41,7 +41,7 @@ export const orderCreateReducer = (state = {}, action) => {
             return {
                 loading: false,
                 success: true,
-                order: action.payload
+                data: action.payload
             }
 
         case ORDER_CREATE_FAIL:
@@ -143,17 +143,17 @@ export const orderDeliverReducer = (state = {}, action) => {
 }
 
 
-export const orderListMyReducer = (state = { orders: [] }, action) => {
+export const orderListMyReducer = (state = {marathons: []}, action) => {
     switch (action.type) {
         case ORDER_LIST_MY_REQUEST:
             return {
-                loading: true
+                marathons: true, ...state
             }
 
         case ORDER_LIST_MY_SUCCESS:
             return {
                 loading: false,
-                orders: action.payload
+                marathons: action.payload
             }
 
         case ORDER_LIST_MY_FAIL:
@@ -164,7 +164,7 @@ export const orderListMyReducer = (state = { orders: [] }, action) => {
 
         case ORDER_LIST_MY_RESET:
             return {
-                orders: []
+                marathons: []
             }
 
         default:

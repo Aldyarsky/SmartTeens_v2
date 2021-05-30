@@ -19,6 +19,9 @@ import {
     marathonUpdateReducer,
     marathonReviewCreateReducer,
     marathonTopRatedReducer,
+    marathonCategoryReducer,
+    marathonLessonListReducer,
+    marathonLessonUpdateReducer,
 } from './reducers/marathonReducers'
 
 import { cartReducer } from './reducers/cartReducers'
@@ -58,6 +61,8 @@ const reducer = combineReducers({
     marathonUpdate: marathonUpdateReducer,
     marathonReviewCreate: marathonReviewCreateReducer,
     marathonTopRated: marathonTopRatedReducer,
+    marathonCategory: marathonCategoryReducer,
+    marathonLessonList: marathonLessonListReducer,
 
     cart: cartReducer,
     userLogin: userLoginReducer,
@@ -91,7 +96,6 @@ const shippingAddressFromStorage = localStorage.getItem('shippingAddress') ?
 const initialState = {
     cart: {
         cartItems: cartItemsFromStorage,
-        shippingAddress: shippingAddressFromStorage,
     },
     userLogin: { userInfo: userInfoFromStorage },
 }

@@ -29,6 +29,13 @@ import {
     MARATHON_TOP_SUCCESS,
     MARATHON_TOP_FAIL,
 
+    MARATHON_CATEGORY_REQUEST,
+    MARATHON_CATEGORY_SUCCESS,
+    MARATHON_CATEGORY_FAIL,
+
+    MARATHON_LESSON_LIST_REQUEST,
+    MARATHON_LESSON_LIST_SUCCESS,
+    MARATHON_LESSON_LIST_FAIL,
 } from '../constants/marathonConstants'
 
 
@@ -73,12 +80,33 @@ export const listTopMarathons = () => async (dispatch) => {
     }
 }
 
+export const listCategoryMarathons = () => async (dispatch) => {
+    try {
+        dispatch({ type: MARATHON_CATEGORY_REQUEST })
+
+        const { data } = await axios.get(`/api/marathons/category/marathons`)
+
+        dispatch({
+            type: MARATHON_CATEGORY_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: MARATHON_CATEGORY_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
 
 export const listMarathonDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: MARATHON_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/marathons/${id}`)
+        const { data } = await axios.get(`/api/marathons/marathon/${id}`)
 
         dispatch({
             type: MARATHON_DETAILS_SUCCESS,
@@ -238,7 +266,7 @@ export const createMarathonReview = (marathonId, review) => async (dispatch, get
         }
 
         const { data } = await axios.post(
-            `/api/marathons/${marathonId}/reviews/`,
+            `/api/marathons/marathon/${marathonId}/reviews/`,
             review,
             config
         )
@@ -252,6 +280,39 @@ export const createMarathonReview = (marathonId, review) => async (dispatch, get
     } catch (error) {
         dispatch({
             type: MARATHON_CREATE_REVIEW_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+export const listMarathonLessons = (marathonId) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: MARATHON_LESSON_LIST_REQUEST })
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        
+        const { data } = await axios.get(`/api/marathons/lessons/${marathonId}`
+        ,config
+        )
+
+        dispatch({
+            type: MARATHON_LESSON_LIST_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: MARATHON_LESSON_LIST_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

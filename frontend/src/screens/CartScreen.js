@@ -6,7 +6,7 @@ import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
 
 function CartScreen({ match, location, history }) {
-    const productId = match.params.id
+    const marathonId = match.params.id
     const qty = location.search ? Number(location.search.split('=')[1]) : 1
     const dispatch = useDispatch()
 
@@ -14,10 +14,10 @@ function CartScreen({ match, location, history }) {
     const { cartItems } = cart
 
     useEffect(() => {
-        if (productId) {
-            dispatch(addToCart(productId, qty))
+        if (marathonId) {
+            dispatch(addToCart(marathonId, qty))
         }
-    }, [dispatch, productId, qty])
+    }, [dispatch, marathonId, qty])
 
 
     const removeFromCartHandler = (id) => {
@@ -25,7 +25,7 @@ function CartScreen({ match, location, history }) {
     }
 
     const checkoutHandler = () => {
-        history.push('/login?redirect=shipping')
+        history.push('/login?redirect=payment')
     }
 
     return (

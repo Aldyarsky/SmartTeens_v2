@@ -29,7 +29,7 @@ function ProfileScreen({ history }) {
     const { success } = userUpdateProfile
 
     const orderListMy = useSelector(state => state.orderListMy)
-    const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
+    const { loading: loadingOrders, error: errorOrders, marathons } = orderListMy
 
 
     useEffect(() => {
@@ -129,7 +129,7 @@ function ProfileScreen({ history }) {
             </Col>
 
             <Col md={9}>
-                <h2>My Orders</h2>
+                <h2>My Marathons</h2>
                 {loadingOrders ? (
                     <Loader />
                 ) : errorOrders ? (
@@ -148,21 +148,20 @@ function ProfileScreen({ history }) {
                                 </thead>
 
                                 <tbody>
-                                    {orders.map(order => (
-                                        <tr key={order._id}>
-                                            <td>{order._id}</td>
-                                            <td>{order.createdAt.substring(0, 10)}</td>
-                                            <td>${order.totalPrice}</td>
-                                            <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
-                                                <i className='fas fa-times' style={{ color: 'red' }}></i>
-                                            )}</td>
+                                    
+                                    {marathons.map(marathon => (
+                                        marathon.marathons.map(marathon_item => 
+                                        <tr key={marathon_item._id}>
+                                            <td>{marathon_item.title}</td>
+                                            <td>{marathon_item.createdAt.substring(0, 10)}</td>
+                                            <td>${marathon_item.price}</td>
                                             <td>
-                                                <LinkContainer to={`/order/${order._id}`}>
+                                                <LinkContainer to={`/lessons/${marathon_item._id}`}>
                                                     <Button className='btn-sm'>Details</Button>
                                                 </LinkContainer>
                                             </td>
                                         </tr>
-                                    ))}
+                                    )))}
                                 </tbody>
                             </Table>
                         )}

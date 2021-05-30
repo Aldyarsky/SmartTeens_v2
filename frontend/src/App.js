@@ -8,7 +8,6 @@ import CartScreen from './screens/CartScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import ProfileScreen from './screens/ProfileScreen'
-import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderScreen from './screens/OrderScreen'
@@ -20,6 +19,7 @@ import OrderListScreen from './screens/OrderListScreen'
 import MarathonListScreen from './screens/MarathonListScreen'
 import MarathonEditScreen from './screens/MarathonEditScreen'
 import MarathonScreen from './screens/MarathonScreen'
+import MarathonLessonScreen from './screens/MarathonLessonScreen'
 
 
 function App() {
@@ -32,7 +32,6 @@ function App() {
           <Route path='/login' component={LoginScreen} />
           <Route path='/register' component={RegisterScreen} />
           <Route path='/profile' component={ProfileScreen} />
-          <Route path='/shipping' component={ShippingScreen} />
           <Route path='/placeorder' component={PlaceOrderScreen} />
           <Route path='/order/:id' component={OrderScreen} />
           <Route path='/payment' component={PaymentScreen} />
@@ -48,6 +47,7 @@ function App() {
           <Route path='/admin/marathon/:id/edit' component={MarathonEditScreen} />
           <Route path='/admin/orderlist' component={OrderListScreen} />
           <Route path='/marathon/:id' component={MarathonScreen} />
+          <Route path='/lessons/:id' component={MarathonLessonScreen}/>
         </Container>
       </main>
       <Footer />

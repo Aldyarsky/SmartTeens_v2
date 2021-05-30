@@ -29,6 +29,18 @@ import {
     MARATHON_TOP_REQUEST,
     MARATHON_TOP_SUCCESS,
     MARATHON_TOP_FAIL,
+
+    MARATHON_CATEGORY_REQUEST,
+    MARATHON_CATEGORY_SUCCESS,
+    MARATHON_CATEGORY_FAIL,
+
+    MARATHON_LESSON_LIST_REQUEST,
+    MARATHON_LESSON_LIST_SUCCESS,
+    MARATHON_LESSON_LIST_FAIL,
+
+    MARATHON_LESSON_UPDATE_REQUEST,
+    MARATHON_LESSON_UPDATE_SUCCESS,
+    MARATHON_LESSON_UPDATE_FAIL,
 } from '../constants/marathonConstants'
 
 
@@ -150,6 +162,37 @@ export const marathonReviewCreateReducer = (state = {}, action) => {
     }
 }
 
+export const marathonLessonListReducer = (state = { marathonLessons: []}, action) => {
+    switch(action.type){
+        case MARATHON_LESSON_LIST_REQUEST:
+            return { loading: true, ...state}
+        
+        case MARATHON_LESSON_LIST_SUCCESS:
+            return {loading: false, marathonLessons: action.payload}
+
+        case MARATHON_LESSON_LIST_FAIL:
+            return {loading: false, error: action.payload}
+        default:
+            return state
+    }
+}
+
+
+
+export const marathonLessonUpdateReducer = (state = { marathonLesson: {}}, action) => {
+    switch(action.type){
+        case MARATHON_LESSON_UPDATE_REQUEST:
+            return { loading: true, marathonLesson: [] }
+        
+        case MARATHON_LESSON_UPDATE_SUCCESS:
+            return {loading: false, marathonLesson: action.payload}
+
+        case MARATHON_LESSON_UPDATE_FAIL:
+            return {loading: false, error: action.payload}
+        default:
+            return state
+    }
+}
 
 export const marathonTopRatedReducer = (state = { marathons: [] }, action) => {
     switch (action.type) {
@@ -167,3 +210,18 @@ export const marathonTopRatedReducer = (state = { marathons: [] }, action) => {
     }
 }
 
+export const marathonCategoryReducer = (state = { marathon_set: []}, action) => {
+    switch (action.type) {
+        case MARATHON_CATEGORY_REQUEST:
+            return { loading: true, ...state }
+
+        case MARATHON_CATEGORY_SUCCESS:
+            return { loading: false, marathon_set: action.payload, }
+
+        case MARATHON_CATEGORY_FAIL:
+            return { loading: false, error: action.payload }
+
+        default:
+            return state
+    }
+}

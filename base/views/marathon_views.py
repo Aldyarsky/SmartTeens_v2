@@ -1,12 +1,12 @@
 from django.shortcuts import render
-
+from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from base.models import Marathon, MarathonReview
-from base.serializers import MarathonSerializer
+from base.models import Marathon, MarathonReview, Category,MarathonLesson, MarathonParticipant
+from base.serializers import MarathonSerializer, MarathonCategorySerializer,MarathonParticipantSerializer, MarathonLessonSerializer
 
 from rest_framework import status
 
@@ -45,6 +45,11 @@ def getTopMarathons(request):
     serializer = MarathonSerializer(marathons, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def getTopMarathonsByCategory(request):
+    categories = Category.objects.order_by('count')[0:5]
+    serializer = MarathonCategorySerializer(categories, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getMarathon(request, pk):
@@ -62,13 +67,45 @@ def createMarathon(request):
         owner=user,
         title='Sample Name',
         price=0,
-        category='Sample Category',
+        category=None,
         description=''
     )
-
     serializer = MarathonSerializer(marathon, many=False)
     return Response(serializer.data)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createMarathonParticipant(request):
+    print(request.data)
+    marathon_participant = MarathonParticipant.objects.create(
+            user= User.objects.get(pk=request.data["user"]),
+            marathon = Marathon.objects.get(pk=request.data["marathon"])
+        )
+    marathon_participant.save()
+    serializer = MarathonParticipantSerializer(marathon_participant, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getMyMarathons(request):
+    user = request.user
+    marathon_participant = MarathonParticipant.objects.filter(user=user) 
+    serializer = MarathonParticipantSerializer(marathon_participant, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getLessons(request, pk):
+    marathon = Marathon.objects.get(_id=pk)
+    user = User.objects.get(id=request.user.id)
+    num_results = MarathonParticipant.objects.filter(marathon=marathon, user=user).count()
+    print(num_results)
+    if(num_results > 0):
+        marathon_lessons = MarathonLesson.objects.filter(marathon=marathon).all()
+        serializer = MarathonLessonSerializer(marathon_lessons, many=True)
+        return Response(serializer.data)
+    return Response('404 - Not Found')
+    
 
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
@@ -78,7 +115,13 @@ def updateMarathon(request, pk):
 
     marathon.title = data['title']
     marathon.price = data['price']
-    marathon.category = data['category']
+    category = Category()
+    if(Category.objects.filter(label=data['category'])):
+        category = Category.objects.filter(label=data['category'])[0]
+    else:
+        category = Category(label=data['category'],count=1)
+        category.save()
+    marathon.category = category
     marathon.description = data['description']
 
     marathon.save()
@@ -107,6 +150,17 @@ def uploadImage(request):
 
     return Response('Image was uploaded')
 
+@api_view(['POST'])
+def uploadVideo(request):
+    data = request.data
+
+    marathon_id = data['marathon_id']
+    marathon_lesson = MarathonLesson.objects.get(marathon=marathon_id)
+
+    marathon_lesson.video = request.FILES.get('video')
+    marathon_lesson.save()
+
+    return Response('Video was uploaded')
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
