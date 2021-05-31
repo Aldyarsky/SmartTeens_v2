@@ -17,8 +17,8 @@ function Header() {
     }
 
     return (
-        <header>
-            <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+        <header style={{backgroundColor:"#000"}}>
+            <Navbar variant="dark" expand="lg" collapseOnSelect>
                 <Container>
                     <LinkContainer to='/'>
                         <Navbar.Brand>SmartTeens</Navbar.Brand>
@@ -28,10 +28,6 @@ function Header() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <SearchBox />
                         <Nav className="ml-auto">
-
-                            <LinkContainer to='/cart'>
-                                <Nav.Link ><i className="fas fa-shopping-cart"></i>Cart</Nav.Link>
-                            </LinkContainer>
 
                             {userInfo ? (
                                 <NavDropdown title={userInfo.name} id='username'>

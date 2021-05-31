@@ -23,7 +23,7 @@ function MarathonCarousel() {
                         {marathon_set.map(item =>
                         <div>
                         <h2>{item.label}</h2>
-                        <Carousel pause='hover' className='bg-dark'>
+                        <Carousel pause='hover' style={{backgroundColor:"#191919"}}>
                          {item.marathons.map(marathon => 
                             <Carousel.Item key={marathon._id}>
                             <Link to={`/marathon/${marathon._id}`}>
@@ -37,10 +37,10 @@ function MarathonCarousel() {
                                     backgroundPosition: "center",
                                     }}></Col>
                                     <Col style={{display:"flex", alignItems: "center"}}>
-                                       <p style={{color:"#fff", textDecoration: "none", textAlign: "justify", maxWidth: "90%"}}>{marathon.description}</p> 
+                                       <p style={{color:"#fff", textDecoration: "none", textAlign: "justify", maxWidth: "90%", margin:"Auto"}}>{marathon.description}</p> 
                                     </Col>
                                 </Row>
-                                <Carousel.Caption className='carousel.caption'>
+                                <Carousel.Caption className='carousel.caption' style={{marginBottom:20}}>
                                     <h4>{marathon.title} (${marathon.price})</h4>
                                 </Carousel.Caption>
                             </Link>

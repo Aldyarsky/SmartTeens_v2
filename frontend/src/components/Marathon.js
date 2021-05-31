@@ -3,12 +3,14 @@ import { Card } from 'react-bootstrap'
 import Rating from './Rating'
 import { Link } from 'react-router-dom'
 
+
+
 function Marathon({ marathon }) {
     return (
-        <Card className="my-3 p-3 rounded" style={{height: 350}}>
+        <Card className="my-3 p-3 rounded" style={{paddingTop: "55%"}}>
             <Link to={`/marathon/${marathon._id}`}>
                 
-                <div className="image" style={{ width: "100%", height: 150, backgroundImage: `url(${marathon.image})`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                <div id="image" className="image" style={{ width: "100%", paddingTop: "66%", backgroundImage: `url(${marathon.image})`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
 
                 </div>
             </Link>
